@@ -1,16 +1,12 @@
 package lab.uro.kitori.samplehilt.di
 
-import android.app.Application
-import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -18,7 +14,6 @@ import lab.uro.kitori.samplehilt.data.GithubApi
 import lab.uro.kitori.samplehilt.data.UserRepository
 import lab.uro.kitori.samplehilt.data.UserRepositoryImpl
 import lab.uro.kitori.samplehilt.domain.UserUseCase
-import lab.uro.kitori.samplehilt.presentation.UserViewModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -59,18 +54,8 @@ class SingletonModule {
 }
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
-class ActivityRetainedModule {
-    @Provides
-    fun provideUserViewModel(
-        @ApplicationContext context: Context,
-        useCase: UserUseCase
-    ): UserViewModel = UserViewModel(context as Application, useCase)
-}
-
-@Module
 @InstallIn(ViewModelComponent::class)
-class ViewModelModule {
+class ViewModelUseCaseModule {
     @Provides
     fun provideUserUseCase(
         repository: UserRepository
@@ -78,9 +63,8 @@ class ViewModelModule {
 }
 
 @Module
-//@InstallIn(ViewModelComponent::class)
-@InstallIn(ActivityRetainedComponent::class)
-abstract class ViewModelModule2 {
+@InstallIn(ViewModelComponent::class)
+abstract class ViewModelRepositoryModule {
     @Binds
     abstract fun bindUserRepository(
         repository: UserRepositoryImpl

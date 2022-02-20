@@ -5,14 +5,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import lab.uro.kitori.samplehilt.domain.User
 import lab.uro.kitori.samplehilt.domain.UserUseCase
 import javax.inject.Inject
 
+@HiltViewModel
 class UserViewModel @Inject constructor(
-    @ApplicationContext app: Application,
+    app: Application,
     private val useCase: UserUseCase
 ) : AndroidViewModel(app) {
     private val _user = MutableLiveData<User>()
