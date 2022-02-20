@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import lab.uro.kitori.samplehilt.data.GithubApi
+import lab.uro.kitori.samplehilt.data.UserRepository
 import lab.uro.kitori.samplehilt.data.UserRepositoryImpl
 import lab.uro.kitori.samplehilt.domain.UserUseCase
 import lab.uro.kitori.samplehilt.presentation.UserViewModel
@@ -25,7 +27,7 @@ import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
-class SingletonModule() {
+class SingletonModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().apply {
         val loggingInterceptor = HttpLoggingInterceptor()
@@ -70,21 +72,17 @@ class ActivityRetainedModule {
 @InstallIn(ViewModelComponent::class)
 class ViewModelModule {
     @Provides
-    fun provideUserRepositoryImpl(
-        api: GithubApi
-    ): UserRepositoryImpl = UserRepositoryImpl(api)
-
-    @Provides
     fun provideUserUseCase(
-        repository: UserRepositoryImpl
+        repository: UserRepository
     ): UserUseCase = UserUseCase(repository)
 }
 
-//@Module
+@Module
 //@InstallIn(ViewModelComponent::class)
-//abstract class ViewModelModule2 {
-//    @Binds
-//    abstract fun bindUserRepository(
-//        repository: UserRepositoryImpl
-//    ): UserRepository
-//}
+@InstallIn(ActivityRetainedComponent::class)
+abstract class ViewModelModule2 {
+    @Binds
+    abstract fun bindUserRepository(
+        repository: UserRepositoryImpl
+    ): UserRepository
+}
