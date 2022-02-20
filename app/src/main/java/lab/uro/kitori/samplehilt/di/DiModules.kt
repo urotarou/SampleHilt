@@ -1,6 +1,5 @@
 package lab.uro.kitori.samplehilt.di
 
-import androidx.viewbinding.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
 import dagger.Module
@@ -26,10 +25,7 @@ class SingletonModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().apply {
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = when {
-            BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
-            else -> HttpLoggingInterceptor.Level.NONE
-        }
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         addInterceptor(loggingInterceptor)
 
         connectTimeout(30, TimeUnit.SECONDS)
