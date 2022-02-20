@@ -9,7 +9,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import lab.uro.kitori.samplehilt.data.GithubApi
+import lab.uro.kitori.samplehilt.data.GitHubApi
 import lab.uro.kitori.samplehilt.data.UserRepository
 import lab.uro.kitori.samplehilt.data.UserRepositoryImpl
 import lab.uro.kitori.samplehilt.domain.UserUseCase
@@ -35,7 +35,7 @@ class SingletonModule {
     @Provides
     fun provideGithubApi(
         client: OkHttpClient
-    ): GithubApi {
+    ): GitHubApi {
         val json = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder()
             .client(client)
@@ -45,7 +45,7 @@ class SingletonModule {
                 json.asConverterFactory("application/json".toMediaType())
             )
             .build()
-            .create(GithubApi::class.java)
+            .create(GitHubApi::class.java)
     }
 }
 
