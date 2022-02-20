@@ -1,7 +1,7 @@
 # Dagger Hilt サンプル
 
-- Android Developers
+- Android Developers  
   https://developer.android.com/training/dependency-injection?hl=ja
 
-- GitHub
+- GitHub  
   https://github.com/google/dagger#hilt-android-setup
